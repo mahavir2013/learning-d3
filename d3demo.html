@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <title>D3</title>
+  <script src="js/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<p>Hi this is a paragraph</p>
+<p>This is another paragraph</p>
+<p>This is again a paragraph</p>
+<p>Just another paragraph</p>
+
+<script type="text/javascript">
+  /*d3.selectAll("p")
+  .data([8, 10, 12, 14])
+  .style("color", function(d, i) {
+    return i % 2 ? "#f00" : "#0f0";
+  })
+  .style("font-size", function(d) { return d + "px"; });
+  d3.select("body").style("background-color", "black");*/
+
+  var p = d3.select("body").selectAll("p")
+    .data([8, 10, 12, 14, 16, 18])
+    .text(function(d) { return d; });
+
+  p.enter().append("p")
+    .text(function(d) { return d; });
+
+  p.exit().remove();
+</script>
+</body>

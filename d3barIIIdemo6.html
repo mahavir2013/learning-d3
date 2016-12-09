@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <title>D3 | Bar II</title>
+  <style type="text/css">
+  .chart rect {
+    fill: steelblue;
+  }
+  .chart text {
+    fill: white;
+    font: 10px sans-serif;
+    text-anchor: middle;
+  }
+  </style>
+  <script src="js/d3.v3.min.js" charset="utf-8"></script>
+  <!--
+    You can inspect SVG elements in your browser’s developer tools for debugging.
+    You can style SVG using CSS
+  -->
+</head>
+<body>
+
+<svg class="chart"></svg>
+
+<script>
+  var height = 420,
+      barWidth = 80;
+
+  var y = d3.scale.linear()
+          .range([0, height]);
+
+  var chart = d3.select(".chart")
+      .attr("height", height);
+
+  d3.tsv("data.tsv", type, function(error, data) {
+    y.domain([0, d3.max(data, function(d) { return d.value; })])
+    
+    chart.attr("width", barWidth * data.length);
+
+    var bar = chart.selectAll("g")
+              .data(data)
+              .enter().append("g")
+              .attr("transform", function(d, i) { return "translate(" + i * barWidth + ", 0)"; });
+
+    bar.append("rect")
+        .attr("height", function(d) { return y(d.value); })
+        .attr("y", function(d) { return height-y(d.value); })
+        .attr("width", barWidth-1);
+
+    bar.append("text")
+        .attr("y", function(d) {return height-y(d.value) + 3; })
+        .attr("x", (barWidth-1) / 2)
+        .attr("dy", ".75em")
+        .text(function(d) { return d.value; });
+  });
+
+  function type(d) {
+    d.value = +d.value;
+    return d;
+  }
+</script>
+</body>

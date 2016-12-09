@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <title>D3</title>
+  <script src="js/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<section>Section1</section>
+<section>Section2</section>
+<section>Section3</section>
+
+<script type="text/javascript">
+  d3.selectAll("section")
+    .attr("class", "special")
+    .append("div")
+    .html("Hello, world!");
+
+  d3.select("body")
+    .style("color", "#555")
+    .style("background-color", "#eee");
+</script>
+</body>

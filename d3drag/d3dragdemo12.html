@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <title>D3 | Transform group | Creating a draggable object in D3 | http://ssun.azurewebsites.net/creating-a-draggable-object-in-d3/ | https://www.dashingd3js.com/svg-group-element-and-d3js</title>
+  <style type="text/css">
+    .box {
+      border: solid 1px #aaa;
+    }
+  </style>
+  <script src="js/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<script>
+  var boxWidth = 600;
+  var boxHeight = 400;
+
+  var box = d3.select('body')
+    .append('svg')
+    .attr('class', 'box')
+    .attr('width', boxWidth)
+    .attr('height', boxHeight);
+
+  var drag = d3.behavior.drag()
+    .on('dragstart', function() {
+      circle.style('fill', 'red');
+    })
+    .on('drag', function(d) {
+      circleG.attr("transform", function(d) { return "matrix(1, 0, 0, 1, " + Math.max(d.r, Math.min(d3.event.x, boxWidth-d.r)) + "," + Math.max(d.r, Math.min(d3.event.y, boxHeight-d.r)) + ")"; });
+    })
+    .on('dragend', function() {
+      circle.style('fill', 'black');
+    });
+  var circleG = box.selectAll('.draggableCircle')  
+    .data([{ x: (boxWidth / 2), y: (boxHeight / 2), r: 25 }])
+    .enter().append('g')
+    .attr('class', 'draggableCircle')
+    .attr("transform", function(d) { return "matrix(1, 0, 0, 1, " + d.x + "," + d.y + ")"; })
+    .call(drag);
+
+  var circle = circleG.append('svg:circle')
+    .attr('cx', 0)
+    .attr('cy', 0)
+    .attr('r', function(d) { return d.r; })
+    .style('fill', 'black');
+</script>
+</body>
